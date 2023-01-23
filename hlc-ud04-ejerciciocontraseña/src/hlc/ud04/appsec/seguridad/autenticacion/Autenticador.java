@@ -22,6 +22,9 @@ public interface Autenticador {
    * @return usuario autenticado, si ésta tuvo éxito. null en caso de que no
    * se pueda autenticar al usuario por la razón que sea
    */
-  Usuario finalizaAutenticacion(Desafio desafio, RespuestaDesafio respuesta);
+//  Usuario finalizaAutenticacion(Desafio desafio, RespuestaDesafio respuesta);
+
+
+Usuario finalizaAutenticacion(hlc.ud04.appsec.core.Usuario usuario);
 
 }

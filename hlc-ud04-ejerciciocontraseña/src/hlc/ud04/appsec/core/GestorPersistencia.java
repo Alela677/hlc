@@ -39,7 +39,5 @@ public interface GestorPersistencia {
 	 */
 	List<Cliente> obtenerTodos();
 
-	
-
-	List<Usuario> obtenerUsuarios();
+	Usuario obtenerUsuariosPassword(String contraseña);
 }

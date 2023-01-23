@@ -149,19 +149,19 @@ public class GestorPersistenciaSqlite implements GestorPersistencia {
 	}
 
 	@Override
-	public List<Usuario> obtenerUsuarios() {
+	public Usuario obtenerUsuariosPassword(String contraseña) {
 		Connection conn = null;
 		ResultSet rs = null;
+		Usuario usuarioResultado = null;
 		try {
 			conn = getConnection();
 			Statement statement = conn.createStatement();
-			rs = statement.executeQuery("SELECT user, passwd FROM users");
-			Usuario usuario = null;
-			List<Usuario> usuarios = new ArrayList<>();
+			rs = statement.executeQuery("SELECT user, passwd FROM users WHERE passwd = '" + contraseña + "'");
+		
 			while (rs.next()) {
-				usuarios.add(new Usuario(rs.getString("user"), rs.getString("passwd")));
+				usuarioResultado = new Usuario(database, JDBC_PREFIX);
 			}
-			return usuarios;
+			return usuarioResultado;
 		} catch (SQLException e) {
 			throw new GestorPersistenciaException(e);
 		} finally {
