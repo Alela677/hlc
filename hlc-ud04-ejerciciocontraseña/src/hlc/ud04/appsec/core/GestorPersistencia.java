@@ -2,6 +2,8 @@ package hlc.ud04.appsec.core;
 
 import java.util.List;
 
+import hlc.ud04.appsec.seguridad.autenticacion.Usuario;
+
 /**
  * Interfaz que deben implementar los gestores de persistencia
  * 
@@ -39,5 +41,4 @@ public interface GestorPersistencia {
 	 */
 	List<Cliente> obtenerTodos();
 
-	Usuario obtenerUsuariosPassword(String contraseña);
 }

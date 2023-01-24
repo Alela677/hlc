@@ -10,7 +10,7 @@ import java.util.List;
 import hlc.ud04.appsec.core.Cliente;
 import hlc.ud04.appsec.core.GestorPersistencia;
 import hlc.ud04.appsec.core.GestorPersistenciaException;
-import hlc.ud04.appsec.core.Usuario;
+import hlc.ud04.appsec.seguridad.autenticacion.Usuario;
 
 /**
  * Gestor de persistencia que emplea una base de datos SQLite
@@ -148,38 +148,7 @@ public class GestorPersistenciaSqlite implements GestorPersistencia {
 		}
 	}
 
-	@Override
-	public Usuario obtenerUsuariosPassword(String contraseña) {
-		Connection conn = null;
-		ResultSet rs = null;
-		Usuario usuarioResultado = null;
-		try {
-			conn = getConnection();
-			Statement statement = conn.createStatement();
-			rs = statement.executeQuery("SELECT user, passwd FROM users WHERE passwd = '" + contraseña + "'");
-		
-			while (rs.next()) {
-				usuarioResultado = new Usuario(database, JDBC_PREFIX);
-			}
-			return usuarioResultado;
-		} catch (SQLException e) {
-			throw new GestorPersistenciaException(e);
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-				}
-			}
-		}
-	}
-
+	
 	private Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(JDBC_PREFIX + database);
 	}

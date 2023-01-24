@@ -1,12 +1,20 @@
 package hlc.ud04.appsec.seguridad.autenticator;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import hlc.ud04.appsec.core.GestorPersistenciaException;
 import hlc.ud04.appsec.seguridad.autenticacion.Autenticador;
 import hlc.ud04.appsec.seguridad.autenticacion.Desafio;
 import hlc.ud04.appsec.seguridad.autenticacion.RespuestaDesafio;
 import hlc.ud04.appsec.seguridad.autenticacion.Usuario;
 
 public class AutenticadorPassword implements Autenticador {
-
+	private static String database = "base.db";
+	private static final String JDBC_PREFIX = "jdbc:sqlite:";
 	private static DatosUsuario[] USUARIOS = null;
 
 	public AutenticadorPassword() {
@@ -15,21 +23,25 @@ public class AutenticadorPassword implements Autenticador {
 
 	@Override
 	public Desafio iniciaAutenticacion(String identificador) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DesafioPassword(identificador);
 	}
 
 	@Override
-	public Usuario finalizaAutenticacion(hlc.ud04.appsec.core.Usuario usuario) {
-		// TODO Auto-generated method stub
-		if (usuario != null) {
+	public Usuario finalizaAutenticacion(Desafio desafio, RespuestaDesafio respuesta) {
+		DesafioPassword desafioD = (DesafioPassword) desafio;
+		RespuestaDesafioPassword respuestaD = (RespuestaDesafioPassword) respuesta;
+
+		String usuario = consultaUsuario(desafioD.getNombreUsuario());
+		String password = consultaPassword(respuestaD.getPassword());
+
+		if (usuario != null && password != null) {
+
 			for (int i = 0; i < USUARIOS.length;) {
 				return new Usuario(USUARIOS[i].uid);
-			}
 
-		} else {
-			return null;
+			}
 		}
+
 		return null;
 	}
 
@@ -52,4 +64,72 @@ public class AutenticadorPassword implements Autenticador {
 			this.uid = uid;
 		}
 	}
+
+	private static String consultaUsuario(String nombreUsuario) {
+
+		Connection conn = null;
+		ResultSet rs = null;
+		String resultado = null;
+		try {
+			conn = getConnection();
+			Statement statement = conn.createStatement();
+			rs = statement.executeQuery("SELECT user FROM users WHERE user = '" + nombreUsuario + "'");
+
+			while (rs.next()) {
+				resultado = rs.getString("user ");
+			}
+			return resultado;
+		} catch (SQLException e) {
+			throw new GestorPersistenciaException(e);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+
+	private static String consultaPassword(String password) {
+		Connection conn = null;
+		ResultSet rs = null;
+		String resultado = null;
+		try {
+			conn = getConnection();
+			Statement statement = conn.createStatement();
+			rs = statement.executeQuery("SELECT passwd FROM users WHERE passwd = '" + password + "'");
+
+			while (rs.next()) {
+				resultado = rs.getString("passwd");
+			}
+			return resultado;
+		} catch (SQLException e) {
+			throw new GestorPersistenciaException(e);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+
+	private static Connection getConnection() throws SQLException {
+		return DriverManager.getConnection(JDBC_PREFIX + database);
+	}
+
 }
