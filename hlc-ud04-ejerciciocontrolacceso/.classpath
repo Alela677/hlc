@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-17.0.5">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="permisoshotp"/>
+	<classpathentry kind="lib" path="C:/Users/Alejandro/Desktop/hlc/hlc-ud04-ejerciciocontraseña/lib/sqlite-jdbc-3.40.0.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
