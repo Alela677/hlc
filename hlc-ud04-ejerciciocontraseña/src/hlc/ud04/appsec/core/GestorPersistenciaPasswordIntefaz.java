@@ -7,4 +7,8 @@ public interface GestorPersistenciaPasswordIntefaz {
 	String consultarPassword(String password);
 	
 	Long consultarId(String nombre , String password);
+	
+	int consultaLectura(Long id);
+	
+	int consultaEscritura(Long id);
 }

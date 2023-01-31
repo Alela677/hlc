@@ -1,11 +1,12 @@
-package hlc.ud04.appsec.sampleapp.seguridad;
+package hlc.ud04.appsec.sampleapp.seguridad.password;
 
 import java.util.Scanner;
 
 import hlc.ud04.appsec.seguridad.autenticacion.Autenticador;
 import hlc.ud04.appsec.seguridad.autenticacion.Usuario;
-import hlc.ud04.appsec.seguridad.autenticator.DesafioPassword;
-import hlc.ud04.appsec.seguridad.autenticator.RespuestaDesafioPassword;
+import hlc.ud04.appsec.seguridad.autenticator.password.AutenticadorPassword;
+import hlc.ud04.appsec.seguridad.autenticator.password.DesafioPassword;
+import hlc.ud04.appsec.seguridad.autenticator.password.RespuestaDesafioPassword;
 import hlc.ud04.appsec.seguridad.controlacceso.ControlAcceso;
 import hlc.ud04.appsec.seguridad.controlacceso.Operacion;
 import hlc.ud04.appsec.seguridad.controlacceso.Recurso;
@@ -27,13 +28,15 @@ public class SistemaSeguridadPassword implements SistemaSeguridad {
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Introduzca el nombre de usuario");
-		String nombreUsuario = sc.nextLine();
-
+		String nombreUsuario = sc.nextLine();// Nombre que introduce el usuario
+		
+		// Iniciamos un desafio con el valor introducido por el usuario
 		DesafioPassword desafio = (DesafioPassword) autenticador.iniciaAutenticacion(nombreUsuario);
 
 		System.out.println("Introduzca la contraseña");
-		String contraseña = sc.nextLine();
-
+		String contraseña = sc.nextLine();// Password que introduce el usuario
+		
+		// Comprobamos si la autenticacion es correcta 
 		return autenticador.finalizaAutenticacion(desafio, new RespuestaDesafioPassword(contraseña));
 	}
 
