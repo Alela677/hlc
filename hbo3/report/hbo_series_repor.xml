@@ -1,0 +1,26 @@
+<odoo>
+   <record id="hboseries_report" model="ir.actions.report">
+   <field name="name">Informe HBO</field>
+   <field name="model">hboseries</field>
+   <field name="report_type">qweb-pdf</field>
+   <field name="report_name">hboseries_view</field>
+   <field name="report_file">hboseries_series</field>
+   <field name="binding_model_id" ref="hboseries_series"/>
+</record>
+
+<template id="series_report">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="seriesHBO3">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 t-field="hboseries.name">Report title</h2>
+                   <h3>Lista de series</h3>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+
+
+</odoo>
+

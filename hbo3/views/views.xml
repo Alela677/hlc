@@ -1,0 +1,93 @@
+<odoo>
+  <data>
+    
+  
+   <!--Vista Series-->
+ <record model="ir.ui.view" id="hboa_series">
+      <field name="name">hboa_series.view.tree</field>
+      <field name="model">hboseries</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="fecha"/>
+          <field name="nota"/>
+          <field name="genero"/>
+        </tree>
+      </field>
+    </record>
+
+     <!--Vista formulario Genero-->
+    <record model="ir.ui.view" id="hboa_formulario">
+      <field name="name">hboa_view.form</field>
+      <field name="model">hboseries</field>
+      <field name="arch" type="xml">
+        
+      <form string="Formulario Series">
+
+      
+      <sheet>
+        <group colspan="4">
+         
+         <h1>
+          <group colspan="2" col="2">
+            <separator string="Titulo" colspan="2"/>
+            <field name="name"/>  
+          </group>
+        </h1>
+         
+         <group colspan="2" col="2">
+            <separator string="Crear serie" colspan="2"/>
+            <field name="director"/>
+            <field name="duracion"/>
+            <field name="fecha"/>
+            <field name="nota"/>
+            <field name="industria"/>
+            <field name="genero"/>
+            </group>
+            </group>
+          </sheet>  
+        </form>
+      </field>
+    </record>
+
+
+    <!--Vista Genero-->
+    <record model="ir.ui.view" id="hboa_genero">
+      <field name="name">hbo3.genero.view.tree</field>
+      <field name="model">hbogenero</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+     <!-- Acciones de ventana -->
+    <record model="ir.actions.act_window" id="hboaseries_window">
+      <field name="name">Series</field>
+      <field name="res_model">hboseries</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="hboagenero_window">
+      <field name="name">Genero</field>
+      <field name="res_model">hbogenero</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    
+
+    <!-- Top menu item -->
+
+    <menuitem name="HBO" id="series_hboa" web_icon="hbo3/static/description/icon.png"/>
+
+    <!-- menu categories -->
+
+
+    <menuitem name="Series" id="serieshboa" parent="series_hboa" action="hboaseries_window"/>
+    <menuitem name="Genero" id="generohboa" parent="series_hboa" action="hboagenero_window"/>
+
+  
+  
+  </data>
+</odoo>
