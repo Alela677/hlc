@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -21,7 +22,7 @@ public class Restaurante implements java.io.Serializable {
 	@Id
 	@Column(name = "cod_rest")
 	private String codRest;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cod_localidad")
 	private Localidad localidad;
@@ -39,12 +40,20 @@ public class Restaurante implements java.io.Serializable {
 	@Column
 	private String horario;
 	
-	@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
-	private Set<RestEmpleado> restEmpleados = new HashSet<RestEmpleado>(0);
+	@OneToMany(mappedBy = "id.restaurante",cascade = CascadeType.ALL)
+	private Set<RestEmpleado> empleados = new HashSet<>(0);	
 	
+	public Set<RestEmpleado> getEmpleados() {
+		return empleados;
+	}
+
+	public void setEmpleados(Set<RestEmpleado> empleados) {
+		this.empleados = empleados;
+	}
+
 	@OneToMany(mappedBy = "dniTitular", cascade = CascadeType.ALL)
 	private Set<Titular> titulars = new HashSet<Titular>(0);
-	
+
 	@OneToMany(mappedBy = "codArticulo", cascade = CascadeType.ALL)
 	private Set<Existencias> existenciases = new HashSet<Existencias>(0);
 
@@ -69,9 +78,30 @@ public class Restaurante implements java.io.Serializable {
 		this.domicilio = domicilio;
 		this.fechaApertura = fechaApertura;
 		this.horario = horario;
-		this.restEmpleados = restEmpleados;
 		this.titulars = titulars;
 		this.existenciases = existenciases;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codRest, domicilio, existenciases, fechaApertura, horario, licenciaFiscal, localidad,
+				nombre, titulars);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Restaurante other = (Restaurante) obj;
+		return Objects.equals(codRest, other.codRest) && Objects.equals(domicilio, other.domicilio)
+				&& Objects.equals(existenciases, other.existenciases)
+				&& Objects.equals(fechaApertura, other.fechaApertura) && Objects.equals(horario, other.horario)
+				&& Objects.equals(licenciaFiscal, other.licenciaFiscal) && Objects.equals(localidad, other.localidad)
+				&& Objects.equals(nombre, other.nombre) && Objects.equals(titulars, other.titulars);
 	}
 
 	public String getCodRest() {
@@ -130,14 +160,6 @@ public class Restaurante implements java.io.Serializable {
 		this.horario = horario;
 	}
 
-	public Set getRestEmpleados() {
-		return this.restEmpleados;
-	}
-
-	public void setRestEmpleados(Set<RestEmpleado> restEmpleados) {
-		this.restEmpleados = restEmpleados;
-	}
-
 	public Set getTitulars() {
 		return this.titulars;
 	}
@@ -156,8 +178,7 @@ public class Restaurante implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "Restaurante [codRest=" + codRest +"]";
+		return "Restaurante [codRest=" + codRest + " , nombre = " + nombre + "]";
 	}
 
-	
 }

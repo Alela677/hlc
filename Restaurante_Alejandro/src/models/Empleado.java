@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,15 +21,24 @@ public class Empleado implements java.io.Serializable {
 	@Id
 	@Column(name = "dni_empleado")
 	private String dniEmpleado;
+
 	@Column
 	private String nombre;
 	@Column
 	private String domicilio;
 	@Column(name = "fecha_nacimiento")
 	private Date fechaNacimiento;
+	
+	@OneToMany(mappedBy = "id.empleado",cascade = CascadeType.ALL)
+	private Set<RestEmpleado> restaurante = new HashSet<>(0);	
+	
+	public Set<RestEmpleado> getRestaurante() {
+		return restaurante;
+	}
 
-	@OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL)
-	private Set<RestEmpleado> restEmpleados = new HashSet<RestEmpleado>(0);
+	public void setRestaurante(Set<RestEmpleado> restaurante) {
+		this.restaurante = restaurante;
+	}
 
 	public Empleado() {
 	}
@@ -45,7 +55,7 @@ public class Empleado implements java.io.Serializable {
 		this.nombre = nombre;
 		this.domicilio = domicilio;
 		this.fechaNacimiento = fechaNacimiento;
-		this.restEmpleados = restEmpleados;
+
 	}
 
 	public String getDni_empleado() {
@@ -80,12 +90,28 @@ public class Empleado implements java.io.Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public Set getRestEmpleados() {
-		return this.restEmpleados;
+	@Override
+	public int hashCode() {
+		return Objects.hash(dniEmpleado, domicilio, fechaNacimiento, nombre);
 	}
 
-	public void setRestEmpleados(Set<RestEmpleado> restEmpleados) {
-		this.restEmpleados = restEmpleados;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Empleado other = (Empleado) obj;
+		return Objects.equals(dniEmpleado, other.dniEmpleado) && Objects.equals(domicilio, other.domicilio)
+				&& Objects.equals(fechaNacimiento, other.fechaNacimiento) && Objects.equals(nombre, other.nombre);
 	}
-
+		
+	@Override
+	public String toString() {
+		return "Empleado [dniEmpleado=" + dniEmpleado + ", nombre=" + nombre + ", domicilio=" + domicilio
+				+ ", fechaNacimiento=" + fechaNacimiento + "]";
+	}
+	
 }

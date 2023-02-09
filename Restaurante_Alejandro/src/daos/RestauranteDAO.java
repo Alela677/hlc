@@ -18,7 +18,7 @@ public class RestauranteDAO extends ComunesDAO<Restaurante> {
 		super(session);
 		this.sesion = session;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Object[]> restaurantePorNombre(String valor) {
 
@@ -33,41 +33,41 @@ public class RestauranteDAO extends ComunesDAO<Restaurante> {
 
 	@SuppressWarnings("unchecked")
 	public List<Object[]> restauranteEmpleados() {
-		
+
 		if (!sesion.getTransaction().isActive()) {
 			sesion.beginTransaction();
 		}
 
-		return sesion.createQuery("SELECT a,e FROM RestEmpleado r JOIN Restaurante a ON r.restaurante.codRest = a.codRest JOIN Empleado e ON r.empleado.dniEmpleado = e.dniEmpleado").list() ;
+		return sesion.createQuery(
+				"SELECT a,b FROM RestEmpleado r JOIN Restaurante a ON r.id.restaurante.codRest = a.codRest "
+						+ "JOIN Empleado b ON r.id.empleado.dniEmpleado = b.dniEmpleado ")
+				.list();
 
 	}
 
-	
-	
-	
-	@SuppressWarnings("unchecked")
-	public List<Restaurante> listaCampos(String nombre, String fecha , String horario){
-		
-		if (!sesion.getTransaction().isActive()) {
-			sesion.beginTransaction();
-		}
-		
-		
-		return sesion.createQuery("FROM Restaurante r WHERE r."+nombre+" OR r.").list();
-		
-	} 
-	
-	
 	public static void main(String[] args) {
 		Session sesion = HibernateUtil.getSession();
 
 		RestauranteDAO dao = new RestauranteDAO(sesion);
+		List<Object[]> lista1 = dao.restaurantePorNombre("Málaga");
+		System.out.println("**********Consulta 2**********");
+		for (Object[] objects : lista1) {
+			Restaurante res = (Restaurante) objects[0];
+			System.out.println("-------------------------------------");
+			System.out.println(res.toString());
+			System.out.println("-------------------------------------");
+		}
 
 		List<Object[]> lista = dao.restauranteEmpleados();
+		System.out.println("**********Consulta 3**********");
 		for (Object[] restaurante : lista) {
 			Restaurante res = (Restaurante) restaurante[0];
-			Empleado loc = (Empleado) restaurante[1];
-			System.out.println(res.toString() + loc.toString());
+			Empleado emple = (Empleado) restaurante[1];
+			System.out.println("-------------------------------------");
+			System.out.println(res.toString() + res.getEmpleados().toString() + "\n" + emple.toString());
+			System.out.println("-------------------------------------");
 		}
+
 	}
+
 }

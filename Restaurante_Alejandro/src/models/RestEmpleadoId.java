@@ -1,7 +1,11 @@
 package models;
 
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -9,62 +13,58 @@ import javax.persistence.ManyToOne;
 public class RestEmpleadoId implements java.io.Serializable {
 
 	@ManyToOne
+	@JoinColumn(name = "dni_empleado")
 	private Empleado empleado;
+
 	@ManyToOne
+	@JoinColumn(name = "cod_rest")
 	private Restaurante restaurante;
-	
-	@Column
-	private String codRest;
-	@Column
-	private String dniEmpleado;
 
 	public RestEmpleadoId() {
 	}
 
-	public RestEmpleadoId(String codRest, String dniEmpleado) {
-		this.codRest = codRest;
-		this.dniEmpleado = dniEmpleado;
+	public RestEmpleadoId(Empleado empleado, Restaurante restaurante) {
+		super();
+		this.empleado = empleado;
+		this.restaurante = restaurante;
 	}
 
-	public String getCodRest() {
-		return this.codRest;
+	public Empleado getEmpleado() {
+		return empleado;
 	}
 
-	public void setCodRest(String codRest) {
-		this.codRest = codRest;
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
 	}
 
-	public String getDniEmpleado() {
-		return this.dniEmpleado;
+	public Restaurante getRestaurante() {
+		return restaurante;
 	}
 
-	public void setDniEmpleado(String dniEmpleado) {
-		this.dniEmpleado = dniEmpleado;
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
 	}
 
-	public boolean equals(Object other) {
-		if ((this == other))
-			return true;
-		if ((other == null))
-			return false;
-		if (!(other instanceof RestEmpleadoId))
-			return false;
-		RestEmpleadoId castOther = (RestEmpleadoId) other;
-
-		return ((this.getCodRest() == castOther.getCodRest()) || (this.getCodRest() != null
-				&& castOther.getCodRest() != null && this.getCodRest().equals(castOther.getCodRest())))
-				&& ((this.getDniEmpleado() == castOther.getDniEmpleado())
-						|| (this.getDniEmpleado() != null && castOther.getDniEmpleado() != null
-								&& this.getDniEmpleado().equals(castOther.getDniEmpleado())));
-	}
-
+	@Override
 	public int hashCode() {
-		int result = 17;
+		return Objects.hash(empleado, restaurante);
+	}
 
-		result = 37 * result + (getCodRest() == null ? 0 : this.getCodRest().hashCode());
-		result = 37 * result + (getDniEmpleado() == null ? 0 : this.getDniEmpleado().hashCode());
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RestEmpleadoId other = (RestEmpleadoId) obj;
+		return Objects.equals(empleado, other.empleado) && Objects.equals(restaurante, other.restaurante);
+	}
 
-		return result;
+	@Override
+	public String toString() {
+		return "RestEmpleadoId [empleado=" + empleado + ", restaurante=" + restaurante + "]";
 	}
 
 }
