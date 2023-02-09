@@ -2,12 +2,10 @@ package daos;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import models.Empleado;
 import models.HibernateUtil;
-import models.Localidad;
 import models.Restaurante;
 
 public class RestauranteDAO extends ComunesDAO<Restaurante> {
@@ -17,6 +15,15 @@ public class RestauranteDAO extends ComunesDAO<Restaurante> {
 	public RestauranteDAO(Session session) {
 		super(session);
 		this.sesion = session;
+	}
+
+	public Empleado buscarporDNI(String dni) {
+
+		if (!sesion.getTransaction().isActive()) {
+			sesion.beginTransaction();
+		}
+
+		return (Empleado) sesion.createQuery("FROM Empleado e WHERE e.dniEmpleado ='" + dni + "'").uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")
