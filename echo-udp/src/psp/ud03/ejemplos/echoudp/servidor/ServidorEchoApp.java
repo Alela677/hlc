@@ -18,13 +18,13 @@ public class ServidorEchoApp {
 			// Creamos el servidor con el puerto
 			Endpoint servidor = new Endpoint(port);
 			
-//			Mensaje mensaje;
-//			// Esperamos conexiones una detrás de otra (Si se produce un error, se termina)
-//			while ((mensaje = servidor.recibir()) != null) {
+			Mensaje mensaje;
+			// Esperamos conexiones una detrás de otra (Si se produce un error, se termina)
+			while ((mensaje = servidor.recibir()) != null) {
 				
 				HiloServidor nuevohilo = new HiloServidor(servidor);
 				nuevohilo.start();
-//			}
+			}
 
 		} catch (NumberFormatException e) {
 			System.err.println("El puerto proporcionado no es válido");

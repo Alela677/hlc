@@ -18,7 +18,7 @@ public class Endpoint {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void enviar(Mensaje msg) {
+	public synchronized void enviar(Mensaje msg) {
 		conexion.enviar(msg);
 	}
 
